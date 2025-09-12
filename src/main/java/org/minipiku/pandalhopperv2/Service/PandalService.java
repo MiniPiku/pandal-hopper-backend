@@ -1,6 +1,7 @@
 package org.minipiku.pandalhopperv2.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.minipiku.pandalhopperv2.DTOs.SimplePandalDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Entity.Pandal;
 import org.minipiku.pandalhopperv2.Repository.PandalRepository;
@@ -24,4 +25,25 @@ public class PandalService {
                 .filter(p -> p.getMetroStation() != null)
                 .collect(Collectors.groupingBy(Pandal::getMetroStation));
     }
+    public List<SimplePandalDTO> getPandalsByZone(String zone) {
+        return pandalRepo.findByZone(zone)
+                .stream()
+                .map(p -> new SimplePandalDTO(
+                        p.getName(),
+                        p.getLatitude(),
+                        p.getLongitude())
+                )
+                .toList();
+    }
+    public List<SimplePandalDTO> getAllPandals() {
+        return pandalRepo.findAll()
+                .stream()
+                .map(p -> new SimplePandalDTO(
+                        p.getName(),
+                        p.getLatitude(),
+                        p.getLongitude()
+                ))
+                .toList();
+    }
+
 }
