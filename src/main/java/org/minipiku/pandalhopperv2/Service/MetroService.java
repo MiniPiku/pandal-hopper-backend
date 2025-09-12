@@ -1,6 +1,7 @@
 package org.minipiku.pandalhopperv2.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.minipiku.pandalhopperv2.DTOs.MetroLocationDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Repository.MetroStationRepository;
 import org.minipiku.pandalhopperv2.Utility.Haversine;
@@ -12,8 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class MetroService {
-    @Autowired
-    private MetroStationRepository metroRepo;
+
+    private final MetroStationRepository metroRepo;
 
     public MetroStation findNearest(double userLat, double userLon) {
         List<MetroStation> stations = metroRepo.findAll();
@@ -28,5 +29,16 @@ public class MetroService {
             }
         }
         return nearest;
+    }
+    public MetroLocationDTO findNearestMinimal(double userLat, double userLon) {
+        MetroStation nearest = findNearest(userLat, userLon);
+        if (nearest != null) {
+            return new MetroLocationDTO(
+                    nearest.getMetroId(),
+                    nearest.getMetroLat(),
+                    nearest.getMetroLon()
+            );
+        }
+        return null;
     }
 }
