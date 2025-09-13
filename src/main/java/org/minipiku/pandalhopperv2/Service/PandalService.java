@@ -1,6 +1,8 @@
 package org.minipiku.pandalhopperv2.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.minipiku.pandalhopperv2.DTOs.MetrobyZoneDTO;
+import org.minipiku.pandalhopperv2.DTOs.PandalbyMetroDTO;
 import org.minipiku.pandalhopperv2.DTOs.SimplePandalDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Entity.Pandal;
@@ -41,8 +43,7 @@ public class PandalService {
                 .map(p -> new SimplePandalDTO(
                         p.getName(),
                         p.getLatitude(),
-                        p.getLongitude()
-                ))
+                        p.getLongitude()))
                 .toList();
     }
     public List<MetroStation> getMetrosForZone(String zone) {
@@ -51,6 +52,27 @@ public class PandalService {
 
     public List<Pandal> getPandalsByZoneAndMetro(String zone, Long metroId) {
         return pandalRepo.findByZoneAndMetroStation_MetroId(zone, metroId);
+    }
+
+    public List<MetrobyZoneDTO> getMetrosForZoneDTO(String zone) {
+        return getMetrosForZone(zone).stream()
+                .map(m -> new MetrobyZoneDTO(
+                        m.getMetroId(),
+                        m.getMetroName(),
+                        m.getMetroLat(),
+                        m.getMetroLon()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public List<PandalbyMetroDTO> getPandalsByZoneAndMetroDTO(String zone, Long metroId) {
+        return getPandalsByZoneAndMetro(zone, metroId).stream()
+                .map(p -> new PandalbyMetroDTO(
+                        p.getName(),
+                        p.getLatitude(),
+                        p.getLongitude()
+                ))
+                .collect(Collectors.toList());
     }
 
 }
