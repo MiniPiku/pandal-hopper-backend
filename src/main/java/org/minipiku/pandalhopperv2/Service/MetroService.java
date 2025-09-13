@@ -5,7 +5,6 @@ import org.minipiku.pandalhopperv2.DTOs.MetroLocationDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Repository.MetroStationRepository;
 import org.minipiku.pandalhopperv2.Utility.Haversine;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

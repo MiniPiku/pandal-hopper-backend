@@ -45,5 +45,12 @@ public class PandalService {
                 ))
                 .toList();
     }
+    public List<MetroStation> getMetrosForZone(String zone) {
+        return pandalRepo.findDistinctMetrosByZone(zone);
+    }
+
+    public List<Pandal> getPandalsByZoneAndMetro(String zone, Long metroId) {
+        return pandalRepo.findByZoneAndMetroStation_MetroId(zone, metroId);
+    }
 
 }
