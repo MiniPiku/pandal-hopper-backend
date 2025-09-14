@@ -1,0 +1,42 @@
+package org.minipiku.pandalhopperv2.Service;
+
+import lombok.RequiredArgsConstructor;
+import org.minipiku.pandalhopperv2.DTOs.PointDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteRequestDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteResponseDTO;
+import org.minipiku.pandalhopperv2.Utility.TSPSolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class RoutingServiceImpl implements RoutingService {
+
+    private final TSPSolver tspSolver;
+
+    @Override
+    public RouteResponseDTO findOptimalRoute(RouteRequestDTO request) {
+        // Merge start + pandals into one list
+        List<PointDTO> allPoints = new ArrayList<>();
+        allPoints.add(request.getStartPoint());  // metro
+        allPoints.addAll(request.getPandals()); // pandals
+
+        // Solve TSP (starting from metro)
+        List<PointDTO> ordered = tspSolver.solveTSP(allPoints);
+
+        // Build response
+        PointDTO origin = ordered.get(0);
+        PointDTO destination = ordered.get(ordered.size() - 1);
+
+        List<PointDTO> waypoints = new ArrayList<>();
+        if (ordered.size() > 2) {
+            waypoints = ordered.subList(1, ordered.size() - 1);
+        }
+
+        return new RouteResponseDTO(origin, destination, waypoints);
+    }
+}

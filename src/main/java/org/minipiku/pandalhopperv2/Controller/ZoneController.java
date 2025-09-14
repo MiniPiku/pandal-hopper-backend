@@ -5,15 +5,12 @@ import org.minipiku.pandalhopperv2.DTOs.MetrobyZoneDTO;
 import org.minipiku.pandalhopperv2.DTOs.PandalbyMetroDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Entity.Pandal;
-import org.minipiku.pandalhopperv2.Service.MetroService;
 import org.minipiku.pandalhopperv2.Service.PandalService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/zone")
 @RequiredArgsConstructor
