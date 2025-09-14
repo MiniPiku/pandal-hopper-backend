@@ -5,12 +5,10 @@ import org.minipiku.pandalhopperv2.DTOs.PointDTO;
 import org.minipiku.pandalhopperv2.DTOs.RouteRequestDTO;
 import org.minipiku.pandalhopperv2.DTOs.RouteResponseDTO;
 import org.minipiku.pandalhopperv2.Utility.TSPSolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
