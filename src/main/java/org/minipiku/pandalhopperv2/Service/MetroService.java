@@ -1,7 +1,7 @@
 package org.minipiku.pandalhopperv2.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.minipiku.pandalhopperv2.DTOs.MetroLocationDTO;
+import org.minipiku.pandalhopperv2.DTOs.MetroPandalDTOs.MetroLocationDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Repository.MetroStationRepository;
 import org.minipiku.pandalhopperv2.Utility.Haversine;

@@ -1,13 +1,11 @@
-package org.minipiku.pandalhopperv2.DTOs;
+package org.minipiku.pandalhopperv2.DTOs.MetroPandalDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class PandalbyMetroDTO {
+public class SimplePandalDTO {
     private String name;
     private double latitude;
     private double longitude;
