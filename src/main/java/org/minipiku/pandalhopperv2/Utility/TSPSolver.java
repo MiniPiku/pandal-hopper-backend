@@ -1,6 +1,6 @@
 package org.minipiku.pandalhopperv2.Utility;
 
-import org.minipiku.pandalhopperv2.DTOs.RouteDTOs.PointDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.PointDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
