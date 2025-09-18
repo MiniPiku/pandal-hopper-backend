@@ -1,8 +1,8 @@
 package org.minipiku.pandalhopperv2.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.minipiku.pandalhopperv2.DTOs.RouteRequestDTO;
-import org.minipiku.pandalhopperv2.DTOs.RouteResponseDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.RouteRequestDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.RouteResponseDTO;
 import org.minipiku.pandalhopperv2.Service.RoutingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

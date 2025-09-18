@@ -1,4 +1,4 @@
-package org.minipiku.pandalhopperv2.DTOs;
+package org.minipiku.pandalhopperv2.DTOs.MetroPandalDTO;
 
 import lombok.*;
 

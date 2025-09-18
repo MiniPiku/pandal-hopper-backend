@@ -1,6 +1,6 @@
 package org.minipiku.pandalhopperv2.Controller;
 
-import org.minipiku.pandalhopperv2.DTOs.MetroLocationDTO;
+import org.minipiku.pandalhopperv2.DTOs.MetroPandalDTO.MetroLocationDTO;
 import org.minipiku.pandalhopperv2.Entity.MetroStation;
 import org.minipiku.pandalhopperv2.Service.MetroService;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
 package org.minipiku.pandalhopperv2.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.minipiku.pandalhopperv2.DTOs.PointDTO;
-import org.minipiku.pandalhopperv2.DTOs.RouteRequestDTO;
-import org.minipiku.pandalhopperv2.DTOs.RouteResponseDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.PointDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.RouteRequestDTO;
+import org.minipiku.pandalhopperv2.DTOs.RouteDTO.RouteResponseDTO;
 import org.minipiku.pandalhopperv2.Utility.TSPSolver;
 import org.springframework.stereotype.Service;
 
