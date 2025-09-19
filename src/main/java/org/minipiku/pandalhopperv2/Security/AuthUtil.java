@@ -1,5 +1,7 @@
 package org.minipiku.pandalhopperv2.Security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.minipiku.pandalhopperv2.Entity.User;
@@ -12,7 +14,7 @@ import java.util.Date;
 
 @Component
 public class AuthUtil {
-    @Value("${jwt_Secret_Key}")
+    @Value("${jwt.Secret-Key}")
     private String jwtSecretKey;
 
     private SecretKey getJwtSecretKey() {
@@ -26,5 +28,14 @@ public class AuthUtil {
                 .expiration(new Date(System.currentTimeMillis() + 3600 * 1000))
                 .signWith(getJwtSecretKey())
                 .compact();
+    }
+
+    public String getUserNameFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getJwtSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.getSubject();
     }
 }
