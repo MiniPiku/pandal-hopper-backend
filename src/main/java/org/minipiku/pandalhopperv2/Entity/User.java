@@ -27,6 +27,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    private String providerId;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProviderType providerType;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
