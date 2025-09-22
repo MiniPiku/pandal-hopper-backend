@@ -1,23 +1,25 @@
 package org.minipiku.pandalhopperv2.Security;
 
-import lombok.RequiredArgsConstructor;
 import org.minipiku.pandalhopperv2.DTOs.AuthDTO.LoginRequestDTO;
 import org.minipiku.pandalhopperv2.DTOs.AuthDTO.LoginResponseDTO;
 import org.minipiku.pandalhopperv2.DTOs.AuthDTO.SignupRequestDTO;
 import org.minipiku.pandalhopperv2.DTOs.AuthDTO.SignupResponseDTO;
-import org.minipiku.pandalhopperv2.Entity.AuthProviderType;
+import org.minipiku.pandalhopperv2.Entity.Type.AuthProviderType;
+import org.minipiku.pandalhopperv2.Entity.Type.RoleType;
 import org.minipiku.pandalhopperv2.Entity.User;
 import org.minipiku.pandalhopperv2.Repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 
@@ -96,6 +98,7 @@ public class AuthService {
                 .username(signupRequestDTO.getUsername())
                 .email(signupRequestDTO.getEmail()) // assuming SignupRequestDTO contains email
                 .password(passwordEncoder.encode(signupRequestDTO.getPassword()))
+                .roles(Set.of(RoleType.USER))
                 .build();
 
         user = userRepository.save(user);

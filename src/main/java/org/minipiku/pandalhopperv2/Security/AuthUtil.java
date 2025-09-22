@@ -1,11 +1,10 @@
 package org.minipiku.pandalhopperv2.Security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.minipiku.pandalhopperv2.Entity.AuthProviderType;
+import org.minipiku.pandalhopperv2.Entity.Type.AuthProviderType;
 import org.minipiku.pandalhopperv2.Entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -1,6 +1,6 @@
 package org.minipiku.pandalhopperv2.Repository;
 
-import org.minipiku.pandalhopperv2.Entity.AuthProviderType;
+import org.minipiku.pandalhopperv2.Entity.Type.AuthProviderType;
 import org.minipiku.pandalhopperv2.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
