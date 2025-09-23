@@ -27,30 +27,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        log.info("incoming request : {}", request.getRequestURI() );
+        log.info("Incoming request: {}", request.getRequestURI());
 
-        // 🚨 Skip JWT validation for auth endpoints
         String path = request.getServletPath();
-        if (path.startsWith("/auth/")) {
+        if (path.startsWith("/auth/")) { //Skip auth endpoints
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String requestTokenHeader = request.getHeader("Authorization");
-        if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = requestTokenHeader.split("Bearer ")[1];
-        String username = authUtil.getUserNameFromToken(token);
+        try {
+            String token = header.substring(7).trim(); //safer extraction
+            String username = authUtil.getUserNameFromToken(token);
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userRepository.findByUsername(username).orElseThrow();
-
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                userRepository.findByUsername(username).ifPresent(user -> {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                });
+            }
+        } catch (Exception e) {
+            log.error("JWT validation failed: {}", e.getMessage());
+            // Optionally send a 401 response if token is invalid
+            // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+            // return;
         }
+
         filterChain.doFilter(request, response);
     }
 }
