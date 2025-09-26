@@ -1,5 +1,6 @@
 package org.minipiku.pandalhopperv2.Service;
 
+import org.springframework.cache.annotation.Cacheable;
 import lombok.RequiredArgsConstructor;
 import org.minipiku.pandalhopperv2.DTOs.MetroPandalDTO.MetrobyZoneDTO;
 import org.minipiku.pandalhopperv2.DTOs.MetroPandalDTO.PandalbyMetroDTO;
@@ -37,7 +38,10 @@ public class PandalService {
                 )
                 .toList();
     }
+
+    @Cacheable(value = "allPandals")
     public List<SimplePandalDTO> getAllPandals() {
+        System.out.println("🚨 Fetching from DB (not cache)");
         return pandalRepo.findAll()
                 .stream()
                 .map(p -> new SimplePandalDTO(
