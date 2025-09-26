@@ -41,7 +41,8 @@ public class WebSecurityConfig {
                                 "/public/**",
                                 "/auth/**",
                                 "/login/**",
-                                "/oauth2/**"
+                                "/oauth2/**",
+                                "/pandals/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
