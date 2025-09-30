@@ -40,7 +40,8 @@ public class User implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    Set<RoleType> roles =  new HashSet<>();
+    @Builder.Default
+    private Set<RoleType> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
