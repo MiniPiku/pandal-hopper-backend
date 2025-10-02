@@ -42,7 +42,10 @@ public class WebSecurityConfig {
                                 "/auth/**",
                                 "/login/**",
                                 "/oauth2/**",
-                                "/pandals/**"
+                                "/metro/**",
+                                "/pandals/**",
+                                "api/**",
+                                "zone/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

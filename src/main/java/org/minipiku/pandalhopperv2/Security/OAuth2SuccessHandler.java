@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // Build redirect URL to your frontend callback page
         String redirectUrl = String.format(
-                "http://localhost:3000/auth/callback?token=%s&userId=%s",
+                "https://pandal-hopper.vercel.app/auth/callback?token=%s&userId=%s",
                 URLEncoder.encode(body.getJwt(), StandardCharsets.UTF_8),
                 URLEncoder.encode(String.valueOf(body.getUserId()), StandardCharsets.UTF_8)
         );
