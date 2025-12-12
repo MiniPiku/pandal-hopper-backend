@@ -10,7 +10,7 @@ RUN mvn clean package -DskipTests
 
 
 # ---------- Stage 2: Run ----------
-FROM openjdk:17-jdk
+FROM openjdk:17
 
 WORKDIR /app
 
