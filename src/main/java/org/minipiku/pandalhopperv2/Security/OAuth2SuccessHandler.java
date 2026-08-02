@@ -1,14 +1,10 @@
 package org.minipiku.pandalhopperv2.Security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.minipiku.pandalhopperv2.DTOs.AuthDTO.LoginResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -25,7 +21,11 @@ import java.nio.charset.StandardCharsets;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final AuthService authService;
-    private final ObjectMapper objectMapper;
+    private final OAuth2CodeExchangeService codeExchangeService;
+
+    /** Was hardcoded to the production Vercel URL; now environment-specific. */
+    @Value("${app.frontend.callback-url:http://localhost:5173/auth/callback}")
+    private String frontendCallbackUrl;
 
     @Override
     public void onAuthenticationSuccess(
@@ -38,7 +38,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oAuth2User = oauthToken.getPrincipal();
         String registrationId = oauthToken.getAuthorizedClientRegistrationId();
 
-        // Create/lookup user and generate JWT
         ResponseEntity<LoginResponseDTO> loginResponse =
                 authService.handleOauth2LoginUser(oAuth2User, registrationId);
         LoginResponseDTO body = loginResponse.getBody();
@@ -47,14 +46,13 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             return;
         }
 
-        // Build redirect URL to your frontend callback page
-        String redirectUrl = String.format(
-                "https://pandal-hopper.vercel.app/auth/callback?token=%s&userId=%s",
-                URLEncoder.encode(body.getJwt(), StandardCharsets.UTF_8),
-                URLEncoder.encode(String.valueOf(body.getUserId()), StandardCharsets.UTF_8)
-        );
+        // Redirect with a single-use code rather than the JWT. The token itself
+        // never enters the URL bar, browser history, or a Referer header.
+        String code = codeExchangeService.issueCode(body);
+        String redirectUrl = frontendCallbackUrl
+                + (frontendCallbackUrl.contains("?") ? "&" : "?")
+                + "code=" + URLEncoder.encode(code, StandardCharsets.UTF_8);
 
-        // Redirect the browser
         response.sendRedirect(redirectUrl);
     }
 }

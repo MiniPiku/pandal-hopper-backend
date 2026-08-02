@@ -6,7 +6,7 @@ import org.minipiku.pandalhopperv2.Service.MetroService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
+// CORS handled centrally in WebSecurityConfig.
 @RestController
 @RequestMapping("/metro")
 public class MetroController {
