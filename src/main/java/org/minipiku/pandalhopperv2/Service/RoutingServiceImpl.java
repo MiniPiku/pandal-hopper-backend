@@ -14,14 +14,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoutingServiceImpl implements RoutingService {
 
+    /**
+     * The solver is O(n^2) and this endpoint is unauthenticated, so an
+     * unbounded waypoint list is a cheap way to burn CPU. 100 stops is well
+     * beyond any realistic day of pandal hopping.
+     */
+    private static final int MAX_WAYPOINTS = 100;
+
     private final TSPSolver tspSolver;
 
     @Override
     public RouteResponseDTO findOptimalRoute(RouteRequestDTO request) {
+        if (request == null || request.getStartPoint() == null) {
+            throw new IllegalArgumentException("startPoint is required");
+        }
+
+        List<PointDTO> pandals = request.getPandals();
+        if (pandals == null || pandals.isEmpty()) {
+            throw new IllegalArgumentException("At least one pandal is required");
+        }
+        if (pandals.size() > MAX_WAYPOINTS) {
+            throw new IllegalArgumentException(
+                    "Too many pandals: " + pandals.size() + " (max " + MAX_WAYPOINTS + ")");
+        }
+        if (pandals.stream().anyMatch(p -> p == null)) {
+            throw new IllegalArgumentException("pandals must not contain null entries");
+        }
+
         // Merge start + pandals into one list
         List<PointDTO> allPoints = new ArrayList<>();
         allPoints.add(request.getStartPoint());  // metro
-        allPoints.addAll(request.getPandals()); // pandals
+        allPoints.addAll(pandals);
 
         // Solve TSP (starting from metro)
         List<PointDTO> ordered = tspSolver.solveTSP(allPoints);

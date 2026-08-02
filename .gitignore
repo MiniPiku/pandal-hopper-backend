@@ -33,3 +33,9 @@ build/
 .vscode/
 
 .env
+.env.local
+.env.*.local
+!.env.example
+
+### Tooling output ###
+.testrelic-output/
